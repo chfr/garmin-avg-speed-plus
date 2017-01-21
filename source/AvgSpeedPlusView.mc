@@ -8,8 +8,6 @@ const FASTER = 4;
 const UNKNOWN = 8;
 const PAUSED = 16;
 
-const H_SPACING = 3;
-
 class AvgSpeedPlusView extends Ui.DataField {
 
     hidden var mSpeed;
