@@ -90,7 +90,7 @@ class AvgSpeedPlusView extends Ui.DataField {
         }
 
         if (info.timerState == Activity.TIMER_STATE_ON) {
-            if (withinRange(speed, avg - 0.2, avg + 0.2)) {
+            if (withinRange(speed, avg - 0.1, avg + 0.1)) {
                 mStatus = EQUAL;
             } else if (speed < avg) {
                 mStatus = SLOWER;
