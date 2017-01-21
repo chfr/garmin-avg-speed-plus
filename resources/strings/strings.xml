@@ -1,4 +1,7 @@
 <strings>
     <string id="AppName">AvgSpeedPlus</string>
     <string id="label">Speed</string>
+    <string id="unit1metric">km</string>
+    <string id="unit1statute">m</string>
+    <string id="unit2">h</string>
 </strings>

@@ -13,6 +13,8 @@ class AvgSpeedPlusView extends Ui.DataField {
     hidden var mSpeed;
     hidden var mStatus;
     hidden var mFormatString = "%.1f";
+    hidden var mUnit1String;
+    hidden var mUnit2String;
 
     function initialize() {
         DataField.initialize();
@@ -50,6 +52,20 @@ class AvgSpeedPlusView extends Ui.DataField {
         }
 
         View.findDrawableById("label").setText(Rez.Strings.label);
+
+        var unit1 = View.findDrawableById("unit1");
+        var unit2 = View.findDrawableById("unit2");
+
+        if (Sys.DeviceSettings.distanceUnits == Sys.DeviceSettings.UNIT_METRIC) {
+            mUnit1String = Rez.Strings.unit1metric;
+        } else {
+            mUnit1String = Rez.Strings.unit1statute;
+        }
+        mUnit2String = Rez.Strings.unit2;
+
+        unit1.setText(mUnit1String);
+        unit2.setText(mUnit2String);
+
         return true;
     }
 
@@ -65,8 +81,13 @@ class AvgSpeedPlusView extends Ui.DataField {
             return;
         }
 
-        speed = speed * 3.6;
-        avg = avg * 3.6;
+        if (Sys.DeviceSettings.distanceUnits == Sys.DeviceSettings.UNIT_METRIC) {
+            speed = speed * 3.6;
+            avg = avg * 3.6;
+        } else {
+            speed = speed * 2.23694;
+            avg = avg * 2.23694;
+        }
 
         if (info.timerState == Activity.TIMER_STATE_ON) {
             if (withinRange(speed, avg - 0.2, avg + 0.2)) {

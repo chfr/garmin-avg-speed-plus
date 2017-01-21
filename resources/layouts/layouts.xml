@@ -4,9 +4,9 @@
         <drawable class="Background" />
         <label id="label" x="center" y="center" color="Gfx.COLOR_LT_GRAY" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
         <label id="value" x="center" y="center" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
-        <label id="unit1" x="center" y="center" text="km" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
-        <label id="unit2" x="center" y="center" text="h" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
-        <label id="status" x="center" y="center" text="+"  color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+        <label id="unit1" x="center" y="center" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+        <label id="unit2" x="center" y="center" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+        <label id="status" x="center" y="center" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
     </layout>
 
     <!-- Layouts used for the for the four quadrants. -->
