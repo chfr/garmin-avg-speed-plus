@@ -124,6 +124,7 @@ class AvgSpeedPlusView extends Ui.DataField {
 
         var speedWidth = dc.getTextWidthInPixels(speedString, Gfx.FONT_LARGE);
         var statusWidth = dc.getTextWidthInPixels(statusString, Gfx.FONT_TINY);
+        var largeHeight = Gfx.getFontHeight(Gfx.FONT_LARGE);
         var tinyHeight = Gfx.getFontHeight(Gfx.FONT_TINY);
 
         var offset = 0;
@@ -142,8 +143,8 @@ class AvgSpeedPlusView extends Ui.DataField {
         unit2.locY = speed.locY + tinyHeight / 2 + tinyHeight / 2;
 
         // to the left of speed, on the horizontal centerline
-        status.locX = speed.locX - speedWidth / 2 - statusWidth / 2 - 4;
-        status.locY = speed.locY + tinyHeight / 2;
+        status.locX = speed.locX - speedWidth / 2 - statusWidth / 2 - 8;
+        status.locY = speed.locY;
 
         status.setText(statusString);
 
