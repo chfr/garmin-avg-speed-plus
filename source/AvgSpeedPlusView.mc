@@ -95,11 +95,13 @@ class AvgSpeedPlusView extends Ui.DataField {
         var unit2 = View.findDrawableById("unit2");
 
         if (getBackgroundColor() == Gfx.COLOR_BLACK) {
+            label.setColor(Gfx.COLOR_WHITE);
             speed.setColor(Gfx.COLOR_WHITE);
             status.setColor(Gfx.COLOR_WHITE);
             unit1.setColor(Gfx.COLOR_WHITE);
             unit2.setColor(Gfx.COLOR_WHITE);
         } else {
+            label.setColor(Gfx.COLOR_BLACK);
             speed.setColor(Gfx.COLOR_BLACK);
             status.setColor(Gfx.COLOR_BLACK);
             unit1.setColor(Gfx.COLOR_BLACK);
