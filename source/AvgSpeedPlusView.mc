@@ -16,6 +16,12 @@ class AvgSpeedPlusView extends Ui.DataField {
     hidden var mUnit1String;
     hidden var mUnit2String;
 
+    hidden var mDefaultArrowWidth = 14;
+    hidden var mDefaultArrowHeight = 24;
+    hidden var mDefaultDotRadius = 6;
+
+    hidden var mSpeedFont = Gfx.FONT_NUMBER_MEDIUM;
+
     function initialize() {
         DataField.initialize();
         mSpeed = 0.0f;
@@ -26,9 +32,9 @@ class AvgSpeedPlusView extends Ui.DataField {
     function onLayout(dc) {
         View.setLayout(Rez.Layouts.MainLayout(dc));
         var labelView = View.findDrawableById("label");
-        labelView.locY = labelView.locY - 16;
+        labelView.locY = labelView.locY - 20;
         var valueView = View.findDrawableById("value");
-        valueView.locY = valueView.locY + 7;
+        valueView.locY = valueView.locY + 5;
 
         View.findDrawableById("label").setText(Rez.Strings.label);
 
@@ -90,42 +96,29 @@ class AvgSpeedPlusView extends Ui.DataField {
 
         var label = View.findDrawableById("label");
         var speed = View.findDrawableById("value");
-        var status = View.findDrawableById("status");
         var unit1 = View.findDrawableById("unit1");
         var unit2 = View.findDrawableById("unit2");
 
         if (getBackgroundColor() == Gfx.COLOR_BLACK) {
             label.setColor(Gfx.COLOR_WHITE);
             speed.setColor(Gfx.COLOR_WHITE);
-            status.setColor(Gfx.COLOR_WHITE);
             unit1.setColor(Gfx.COLOR_WHITE);
             unit2.setColor(Gfx.COLOR_WHITE);
         } else {
             label.setColor(Gfx.COLOR_BLACK);
             speed.setColor(Gfx.COLOR_BLACK);
-            status.setColor(Gfx.COLOR_BLACK);
             unit1.setColor(Gfx.COLOR_BLACK);
             unit2.setColor(Gfx.COLOR_BLACK);
         }
+
+
         var speedString = mSpeed.format(mFormatString);
         speed.setText(speedString);
+        speed.setFont(mSpeedFont);
 
-        var statusString = "?";
 
-        if (mStatus == EQUAL) {
-            statusString = "=";
-        } else if (mStatus == SLOWER) {
-            statusString = "-";
-        } else if (mStatus == FASTER) {
-            statusString = "+";
-        } else if (mStatus == PAUSED) {
-            statusString = "~";
-        } else if (mStatus == UNKNOWN) {
-            statusString = "x";
-        }
-
-        var speedWidth = dc.getTextWidthInPixels(speedString, Gfx.FONT_LARGE);
-        var statusWidth = dc.getTextWidthInPixels(statusString, Gfx.FONT_TINY);
+        var speedWidth = dc.getTextWidthInPixels(speedString, mSpeedFont);
+        var speedHeight = Gfx.getFontHeight(mSpeedFont);
         var largeHeight = Gfx.getFontHeight(Gfx.FONT_LARGE);
         var tinyHeight = Gfx.getFontHeight(Gfx.FONT_TINY);
 
@@ -137,25 +130,74 @@ class AvgSpeedPlusView extends Ui.DataField {
         }
 
         // to the right of speed, and above the horizontal centerline
-        unit1.locX = speed.locX + speedWidth - 8 + offset;
-        unit1.locY = speed.locY + tinyHeight / 2 - tinyHeight / 2;
+        unit1.locX = speed.locX + speedWidth - 16 + offset;
+        unit1.locY = speed.locY;
 
         // to the right of speed, and below the horizontal centerline
         unit2.locX = unit1.locX;
-        unit2.locY = speed.locY + tinyHeight / 2 + tinyHeight / 2;
-
-        // to the left of speed, on the horizontal centerline
-        status.locX = speed.locX - speedWidth / 2 - statusWidth / 2 - 8;
-        status.locY = speed.locY;
-
-        status.setText(statusString);
+        unit2.locY = speed.locY + tinyHeight;
 
         // Call parent's onUpdate(dc) to redraw the layout
         View.onUpdate(dc);
+
+        var statusX = 0;
+        var statusY = 0;
+
+        if (mStatus == EQUAL || mStatus == PAUSED || mStatus == UNKNOWN) {
+            statusX = speed.locX - speedWidth / 2 - mDefaultDotRadius / 2 - 4;
+            statusY = speed.locY + speedHeight / 2 - 2;
+
+            drawEqualSymbol(dc, statusX, statusY);
+        } else if (mStatus == SLOWER) {
+            statusX = speed.locX - speedWidth / 2 - mDefaultArrowWidth - 0;
+            statusY = speed.locY + speedHeight / 2 - mDefaultArrowHeight / 2 - 2;
+
+            drawDownArrow(dc, statusX, statusY);
+        } else if (mStatus == FASTER) {
+            statusX = speed.locX - speedWidth / 2 - mDefaultArrowWidth - 0;
+            statusY = speed.locY + speedHeight / 2 - mDefaultArrowHeight / 2 - 2;
+
+            drawUpArrow(dc, statusX, statusY);
+        }
     }
 
     function withinRange(value, lower, upper) {
         return value >= lower && value <= upper;
     }
 
+    function drawUpArrow(dc, x, y) {
+        var tipHeight = mDefaultArrowHeight;
+        var tipWidth = mDefaultArrowWidth;
+        var tipDroop = 8;
+
+        var leftTip = [x, y+tipHeight];
+        var tip = [x + tipWidth/2, y];
+        var rightTip = [x+tipWidth, y+tipHeight];
+        var center = [x + tipWidth/2, y+tipHeight - tipDroop];
+
+        var coords = [leftTip, tip, rightTip, center];
+
+        dc.fillPolygon(coords);
+    }
+
+    function drawDownArrow(dc, x, y) {
+        var tipHeight = mDefaultArrowHeight;
+        var tipWidth = mDefaultArrowWidth;
+        var tipDroop = 8;
+
+        var leftTip = [x, y];
+        var tip = [x + tipWidth/2, y+tipHeight];
+        var rightTip = [x+tipWidth, y];
+        var center = [x + tipWidth/2, y+ tipDroop];
+
+        var coords = [leftTip, tip, rightTip, center];
+
+        dc.fillPolygon(coords);
+    }
+
+    function drawEqualSymbol(dc, x, y) {
+        var radius = mDefaultDotRadius;
+
+        dc.fillCircle(x, y, radius);
+    }
 }
